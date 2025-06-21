@@ -1,0 +1,39 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: django-app
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: django-todo
+#   template:
+#     metadata:
+#       labels:
+#         app: django-todo
+#     spec:
+#       containers:
+#       - name: django-todo
+#         image: django-custom-image
+#         imagePullPolicy: Never
+#         ports:
+#         - containerPort: 8000
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-nginx-todo
+  template:
+    metadata:
+      labels:
+        app: django-nginx-todo
+    spec:
+      containers:
+      - name: django-nginx-container
+        image: gauravshewale01/django-nginx-todo:latest  # Change this if using a different image
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,46 @@
+# services:
+#   web:
+#     build: .
+#     image: django-custom-image
+#     container_name: django-todo
+#     # volumes:
+#     #   - .:/app
+#     #   - static_volume:/app/static
+#     expose:
+#       - "8000"
+#     command: uwsgi --ini uwsgi.ini
+
+#   nginx:
+#     image: nginx:alpine
+#     container_name: nginx
+#     ports:
+#       - "8000:80"  # expose on host port 8000
+#     # volumes:
+#     #   - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+#     #   - static_volume:/app/static
+#     depends_on:
+#       - web
+
+# # volumes:
+# #   static_volume:
+version: '3.8'
+
+services:
+  django-todo:
+    build: .
+    container_name: django-todo
+    volumes:
+      - .:/app
+    expose:
+      - 8000
+    # REMOVE this line:
+    # depends_on:
+    #   - nginx
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - django-todo
